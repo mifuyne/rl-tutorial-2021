@@ -15,7 +15,7 @@ def main() -> None:
 
     tileset = tcod.tileset.load_tilesheet("data/dejavu12x12_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
 
-    event_handler = game.input_handlers.EventHander()
+    event_handler = game.input_handlers.EventHandler()
 
     with tcod.context.new(
         columns=screen_width,
