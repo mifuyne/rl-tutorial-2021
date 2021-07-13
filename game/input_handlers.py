@@ -1,9 +1,10 @@
 # game/input_handlers.py
 
-from __future__ import annotations
 from typing import Optional
-import tcod
-import game.actions
+
+import tcod.event
+from game.actions import Action, EscapeAction, MoveAction
+
 
 MOVE_KEYS = {
     # Arrow keys.
@@ -35,17 +36,19 @@ MOVE_KEYS = {
     tcod.event.K_n: (1, 1),
 }
 
-class EventHandler(tcod.event.EventDispatch[game.actions.Action]):
-    def ev_quit(self, event: tcod.event.Quit) -> Optional[game.actions.Action]:
+class EventHandler(tcod.event.EventDispatch[Action]):
+    def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
         raise SystemExit(0)
     
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[game.actions.Action]:
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
+        action: Optional[Action] = None
+
         key = event.sym
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            return game.actions.Move(dx=dx, dy=dy)
+            action = MoveAction(dx=dx, dy=dy)
         elif key == tcod.event.K_ESCAPE:
-            raise SystemExit(0)
+            action = EscapeAction()
         
-        return None
+        return action
