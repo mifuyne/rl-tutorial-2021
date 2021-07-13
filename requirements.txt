@@ -1,2 +1,2 @@
-tcod>=11.13
-numpy>=1.18
+tcod>=12
+numpy>=1.20

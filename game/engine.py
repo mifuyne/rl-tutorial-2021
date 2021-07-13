@@ -5,7 +5,6 @@ from typing import Set, Iterable, Any
 from tcod.context import Context
 from tcod.console import Console
 
-from game.actions import EscapeAction, MoveAction
 from game.entity import Entity
 from game.game_map import GameMap
 from game.input_handlers import EventHandler
@@ -22,14 +21,12 @@ class Engine:
     
     def handle_events(self, events: Iterable[Any]) -> None:
         for event in events:
-            action = self.event_handler.dispatch(event)
-
-            # print(f"action = {action}")
+            action = self.event_handler.dispatch(event) # assigns Action object
 
             if action is None:
                 continue
 
-            action.perform(self, self.player)
+            action.perform(self, self.player) # ex: <MoveAction>.perform
     
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)
