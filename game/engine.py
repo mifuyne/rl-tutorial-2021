@@ -4,6 +4,7 @@ from typing import Set, Iterable, Any
 
 from tcod.context import Context
 from tcod.console import Console
+from tcod.map import compute_fov
 
 from game.entity import Entity
 from game.game_map import GameMap
@@ -18,6 +19,7 @@ class Engine:
         self.event_handler = event_handler
         self.game_map = game_map
         self.player = player
+        self.update_fov()
     
     def handle_events(self, events: Iterable[Any]) -> None:
         for event in events:
@@ -27,13 +29,27 @@ class Engine:
                 continue
 
             action.perform(self, self.player) # ex: <MoveAction>.perform
+
+            self.update_fov() # Update FOV before player's next action
+
+    def update_fov(self) -> None:
+        """Recompute the visible area based on the player's point of view"""
+        self.game_map.visible[:] = compute_fov(
+            self.game_map.tiles["transparent"],
+            (self.player.x, self.player.y),
+            radius=8,
+            )
+
+        # Add visible tiles to explored
+        self.game_map.explored |= self.game_map.visible
     
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)
         
         for entity in self.entities:
-            console.print(
-                x=entity.x, y=entity.y, string=entity.char, fg=entity.colour)
+            # Print entities in view
+            if self.game_map.visible[entity.x, entity.y]:
+                console.print(entity.x, entity.y, entity.char, fg=entity.colour)
         
         context.present(console)
         console.clear()
