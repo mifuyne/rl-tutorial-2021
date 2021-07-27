@@ -3,7 +3,7 @@
 from typing import Optional
 
 import tcod.event
-from game.actions import Action, EscapeAction, MoveAction
+from game.actions import Action, EscapeAction, BumpAction
 
 
 MOVE_KEYS = {
@@ -47,7 +47,7 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            action = MoveAction(dx=dx, dy=dy)
+            action = BumpAction(dx=dx, dy=dy)
         elif key == tcod.event.K_ESCAPE:
             action = EscapeAction()
         
