@@ -12,7 +12,7 @@ from game.game_map import GameMap
 import game.tile_types as tile_types
 
 if TYPE_CHECKING:
-    from engine import Engine
+    from game.engine import Engine
 
 class RectangularRoom:
     def __init__(self, x: int, y: int, width: int, height: int):
@@ -38,7 +38,7 @@ class RectangularRoom:
             self.x2 >= other.x1 and
             self.y1 <= other.y2 and
             self.y2 >= other.y1
-        )
+            )
 
 def place_entities( room: RectangularRoom, dungeon: GameMap,
         maximum_monsters: int,

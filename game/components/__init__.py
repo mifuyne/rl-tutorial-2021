@@ -1,0 +1,1 @@
+# game/components/__init__.py

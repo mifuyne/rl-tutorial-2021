@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 import copy
-from typing import Optional, Tuple, TypeVar, TYPE_CHECKING
+from typing import Optional, Tuple, Type, TypeVar, TYPE_CHECKING
+
+from game.render_order import RenderOrder
 
 if TYPE_CHECKING:
+    from game.components.ai import BaseAI
+    from game.components.fighter import Fighter
     from game.game_map import GameMap
 
 T = TypeVar("T", bound="Entity")
@@ -26,7 +30,8 @@ class Entity:
             char: str = "?", 
             colour: Tuple[int, int, int] = (255, 255, 255),
             name: str = "<Unammed>",
-            blocks_movement: bool = False
+            blocks_movement: bool = False,
+            render_order: RenderOrder = RenderOrder.CORPSE,
             ):
         self.x = x
         self.y = y
@@ -34,6 +39,7 @@ class Entity:
         self.colour = colour
         self.name = name
         self.blocks_movement = blocks_movement
+        self.render_order = render_order
         if gamemap:
             # if gamemap isn't provided now then it will be set later
             self.gamemap = gamemap
@@ -62,3 +68,37 @@ class Entity:
     def move(self, dx: int, dy: int) -> None:
         self.x += dx
         self.y += dy
+
+
+class Actor(Entity):
+    def __init__(
+            self,
+            *,
+            x: int = 0,
+            y: int = 0,
+            char: str = "?",
+            colour: Tuple[int, int, int] = (255, 255, 255),
+            name: str = "<Unammed>",
+            ai_cls: Type[BaseAI],
+            fighter: Fighter
+            ):
+
+        super().__init__(
+            x = x,
+            y = y,
+            char = char,
+            colour = colour,
+            name = name,
+            blocks_movement = True,
+            render_order = RenderOrder.ACTOR
+            )
+        
+        self.ai: Optional[BaseAI] = ai_cls(self)
+
+        self.fighter = fighter
+        self.fighter.entity = self
+
+    @property
+    def is_alive(self) -> bool:
+        """Returns True as long this actor can perform actions."""
+        return bool(self.ai)
