@@ -180,7 +180,6 @@ class LogViewer(EventHandler):
         log_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> None:
-        print(repr(self.game_state))
         # conditional movement to improve feedback
         if event.sym in CURSOR_Y_KEYS:
             adjust = CURSOR_Y_KEYS[event.sym]
