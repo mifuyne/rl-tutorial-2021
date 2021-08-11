@@ -2,6 +2,7 @@
 # main.py
 
 import copy
+import traceback
 
 import tcod
 
@@ -22,6 +23,7 @@ def main() -> None:
     max_rooms = 30
 
     max_monsters_per_room = 2
+    max_items_per_room = 2
 
     tileset = tcod.tileset.load_tilesheet(
             "data/dejavu12x12_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
@@ -31,13 +33,14 @@ def main() -> None:
     engine = Engine(player=player)
 
     engine.game_map = generate_dungeon(
-            max_rooms=max_rooms,
-            room_min_size=room_min_size,
-            room_max_size=room_max_size,
-            map_width=map_width,
-            map_height=map_height,
-            max_monsters_per_room=max_monsters_per_room,
-            engine=engine)
+            max_rooms = max_rooms,
+            room_min_size = room_min_size,
+            room_max_size = room_max_size,
+            map_width = map_width,
+            map_height = map_height,
+            max_monsters_per_room = max_monsters_per_room,
+            max_items_per_room = max_items_per_room,
+            engine = engine)
 
     engine.update_fov()
 
@@ -58,7 +61,14 @@ def main() -> None:
             engine.event_handler.on_render(console=root_console)
             context.present(root_console)
 
-            engine.event_handler.handle_events(context)
+            try:
+                for event in tcod.event.wait():
+                    context.convert_event(event)
+                    engine.event_handler.handle_events(event)
+            except Exception:
+                traceback.print_exc() # print to stderr
+                # Print the error to message log
+                engine.message_log.add_message(traceback.format_exc(), colour.error)
 
 
 if __name__ == "__main__":
