@@ -6,9 +6,8 @@ import traceback
 
 import tcod
 
-import game.colour as colour
+from game import colour, entity_factories
 from game.engine import Engine
-import game.entity_factories as entity_factories
 from game.procgen import generate_dungeon
 
 def main() -> None:

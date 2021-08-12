@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING
 from tcod.console import Console
 from tcod.map import compute_fov
 
-import game.exceptions as exceptions
+from game import exceptions
+
 from game.input_handlers import MainGameEventHandler
 from game.message_log import MessageLog
 from game.render_functions import render_bar

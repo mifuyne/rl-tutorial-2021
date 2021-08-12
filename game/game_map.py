@@ -8,7 +8,7 @@ import numpy as np
 from tcod.console import Console
 
 from game.entity import Actor, Item
-import game.tile_types as tile_types
+from game import tile_types
 
 if TYPE_CHECKING:
     from game.engine import Engine

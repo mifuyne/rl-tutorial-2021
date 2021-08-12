@@ -6,7 +6,7 @@ import textwrap
 
 import tcod
 
-import game.colour as colour
+from game import colour
 
 
 class Message:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import game.colour as colour
+from game import colour
 from game.components.base_component import BaseComponent
 from game.input_handlers import GameOverEventHandler
 from game.render_order import RenderOrder

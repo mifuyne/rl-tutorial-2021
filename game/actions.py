@@ -4,8 +4,7 @@ from __future__ import annotations
 from game.components.inventory import Inventory
 from typing import Optional, Tuple, TYPE_CHECKING
 
-import game.colour as colour
-import game.exceptions as exceptions
+from game import colour, exceptions
 
 if TYPE_CHECKING:
     from game.engine import Engine

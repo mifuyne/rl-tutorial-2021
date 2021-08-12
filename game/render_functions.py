@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import game.colour as colour
+from game import colour
 
 if TYPE_CHECKING:
     from tcod import Console

@@ -7,9 +7,9 @@ from typing import Iterator, List, Tuple, TYPE_CHECKING
 
 import tcod
 
-import game.entity_factories as entity_factories
+from game import entity_factories, tile_types
+
 from game.game_map import GameMap
-import game.tile_types as tile_types
 
 if TYPE_CHECKING:
     from game.engine import Engine
@@ -64,7 +64,16 @@ def place_entities( room: RectangularRoom, dungeon: GameMap,
 
         if not any(entity.x == x and entity.y == y
                    for entity in dungeon.entities):    # Check for entity overlap
-            entity_factories.health_potion.spawn(dungeon, x, y)
+            item_chance = random.random()
+
+            if item_chance < 0.4:
+                entity_factories.health_potion.spawn(dungeon, x, y)
+            elif item_chance < 0.6:
+                entity_factories.fireball_scroll.spawn(dungeon, x, y)
+            elif item_chance < 0.8:
+                entity_factories.confusion_scroll.spawn(dungeon, x, y)
+            else:
+                entity_factories.lightning_scroll.spawn(dungeon, x, y)
 
 
 def tunnel_between(
