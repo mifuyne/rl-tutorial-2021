@@ -23,3 +23,6 @@ health_recovered = (0x0, 0xFF, 0x0)
 bar_text = white
 bar_filled = (0x0, 0x90, 0x0)
 bar_empty = (0x60, 0x10, 0x10)
+
+menu_title = (255, 255, 255)
+menu_text = white
