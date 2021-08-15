@@ -20,16 +20,6 @@ def main() -> None:
     screen_width = 80
     screen_height = 50
 
-    map_width = 80
-    map_height = 43
-
-    room_max_size = 10
-    room_min_size = 6
-    max_rooms = 30
-
-    max_monsters_per_room = 2
-    max_items_per_room = 2
-
     tileset = tcod.tileset.load_tilesheet(
             "data/dejavu12x12_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
 
