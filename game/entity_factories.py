@@ -10,8 +10,8 @@ player = Actor(
     colour = (255,255,255), 
     name = "Player",
     ai_cls = HostileEnemy,
-    fighter = Fighter(hp=30, defense=2, power=5),
-    inventory = Inventory(capacity=26),
+    fighter = Fighter(hp = 30, defense = 1, power = 5),
+    inventory = Inventory(capacity = 26),
     level = Level(level_up_base = 200)
     )
 

@@ -119,7 +119,7 @@ class PopupMessage(BaseEventHandler):
             alignment = tcod.CENTER,
             )
 
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[T]:
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[BaseEventHandler]:
         """Any key returns to the parent handler."""
         return self.parent
 
@@ -404,7 +404,7 @@ class InventoryDropHandler(InventoryEventHandler):
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""
-        return actions.DropItem(self.engine.player, Item)
+        return actions.DropItem(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserEventHandler):
