@@ -11,6 +11,8 @@ from game.render_order import RenderOrder
 if TYPE_CHECKING:
     from game.components.ai import BaseAI
     from game.components.consumable import Consumable
+    from game.components.equipment import Equipment
+    from game.components.equippable import Equippable
     from game.components.fighter import Fighter
     from game.components.inventory import Inventory
     from game.components.level import Level
@@ -94,6 +96,7 @@ class Actor(Entity):
             colour: Tuple[int, int, int] = (255, 255, 255),
             name: str = "<Unammed>",
             ai_cls: Type[BaseAI],
+            equipment: Equipment,
             fighter: Fighter,
             inventory: Inventory,
             level: Level,
@@ -110,6 +113,9 @@ class Actor(Entity):
             )
         
         self.ai: Optional[BaseAI] = ai_cls(self)
+
+        self.equipment: Equipment = equipment
+        self.equipment.parent = self
 
         self.fighter = fighter
         self.fighter.parent = self
@@ -135,7 +141,8 @@ class Item(Entity):
             char: str = "?",
             colour: Tuple[int, int, int] = (255, 255, 255),
             name: str = "<Unammed>",
-            consumable: Consumable,
+            consumable: Optional[Consumable] = None,
+            equippable: Optional[Equippable] = None,
             ):
 
         super().__init__(
@@ -149,4 +156,12 @@ class Item(Entity):
             )
 
         self.consumable = consumable
-        self.consumable.parent = self
+
+        if self.consumable:
+            self.consumable.parent = self
+
+        self.equippable = equippable
+
+        if self.equippable:
+            self.equippable.parent = self
+
